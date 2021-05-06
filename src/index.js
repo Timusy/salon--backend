@@ -2,6 +2,7 @@ const express = require("express");
 const env = require("dotenv");
 
 const app = express();
+app.use(express.json());
 
 env.config();
 app.get("/",(req,res)=>{
