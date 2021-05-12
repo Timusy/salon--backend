@@ -2,7 +2,8 @@ const express = require("express");
 const env = require("dotenv");
 const bodyParser=require("body-parser");
 const mongoose = require('mongoose');
-const userRoutes=require("./routes/user");
+const userRoutes=require("./routes/auth");
+const adminRoutes=require("./routes/admin/auth");
 
 env.config();
 
@@ -18,7 +19,14 @@ mongoose.connect(`mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO
 
 
 app.use('/api',userRoutes);
+app.use('/api',adminRoutes);
 
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        msg: "Page not found!!!"
+    })
+})
 
 app.listen(process.env.PORT, () => {
     console.log(`Server started on ${process.env.PORT}`);
